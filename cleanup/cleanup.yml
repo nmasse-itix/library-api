@@ -1,0 +1,87 @@
+---
+
+- name: Delete petstore services of a 3scale tenant
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ansible_connection: local
+    threescale_api: https://{{ admin_portal_hostname }}/admin/api
+    find_in_systemname: library
+    validate_certs: no
+  tasks:
+  - assert:
+      that:
+      - threescale_token is defined
+      - admin_portal_hostname is defined
+      msg: >
+        Please pass your 3scale Access Token in the 'threescale_token' extra var
+        and your 3scale Admin Portal hostname in the 'admin_portal_hostname' extra var.
+
+  - name: Find Services
+    uri:
+      url: '{{ threescale_api }}/services.json?access_token={{ threescale_token }}'
+      validate_certs: '{{ validate_certs }}'
+    register: find_services_response
+    changed_when: false
+
+  - name: Delete all matching services
+    uri:
+      url: '{{ threescale_api }}/services/{{ item.id }}.json?access_token={{ threescale_token }}'
+      method: DELETE
+      status_code: "200,404"
+      validate_certs: '{{ validate_certs }}'
+    register: delete_service_response
+    changed_when: delete_service_response.status == 200
+    with_items: '{{ services }}'
+    when: >
+      find_in_systemname in item.system_name
+    vars:
+      services: '{{ find_services_response.json|json_query(query) }}'
+      query: >
+        services[?service.system_name != `api`].{"id": service.id, "system_name": service.system_name}
+
+  - name: Find API Backends
+    uri:
+      url: '{{ threescale_api }}/backend_apis.json?access_token={{ threescale_token }}'
+      validate_certs: '{{ validate_certs }}'
+    register: find_backends_response
+    changed_when: false
+
+  - name: Delete all matching API Backends
+    uri:
+      url: '{{ threescale_api }}/backend_apis/{{ item.id }}.json?access_token={{ threescale_token }}'
+      method: DELETE
+      status_code: "200,404"
+      validate_certs: '{{ validate_certs }}'
+    register: delete_service_response
+    changed_when: delete_service_response.status == 200
+    with_items: '{{ services }}'
+    when: >
+      find_in_systemname in item.system_name
+    vars:
+      services: '{{ find_backends_response.json|json_query(query) }}'
+      query: >
+        backend_apis[?backend_api.system_name != `api`].{"id": backend_api.id, "system_name": backend_api.system_name}
+
+  - name: Find ActiveDocs
+    uri:
+      url: '{{ threescale_api }}/active_docs.json?access_token={{ threescale_token }}'
+      validate_certs: '{{ validate_certs }}'
+    register: find_active_docs_response
+    changed_when: false
+
+  - name: Delete all matching ActiveDocs
+    uri:
+      url: '{{ threescale_api }}/active_docs/{{ item.id }}.json?access_token={{ threescale_token }}'
+      method: DELETE
+      status_code: "200,404"
+      validate_certs: '{{ validate_certs }}'
+    register: delete_active_docs_response
+    changed_when: delete_active_docs_response.status == 200
+    with_items: '{{ active_docs }}'
+    when: >
+      find_in_systemname in item.system_name
+    vars:
+      active_docs: '{{ find_active_docs_response.json|json_query(query) }}'
+      query: >
+        api_docs[?api_doc.system_name != `echo`].{"id": api_doc.id, "system_name": api_doc.system_name}
