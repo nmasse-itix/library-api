@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "description": "A simple API for managing authors and books.",
         "contact": {
             "name": "Eric Wittmann",
@@ -305,16 +305,24 @@
             }
         },
         "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "name": "api-key",
-                "in": "header"
+            "oidc": {
+                "flows": {
+                    "clientCredentials": {
+                        "tokenUrl": "http://filled.later",
+                        "refreshUrl": "http://filled.later",
+                        "scopes": {
+                            "openid": ""
+                        }
+                    }
+                },
+                "type": "oauth2"
             }
         }
     },
     "security": [
         {
-            "api-key": [
+            "oidc": [
+                "openid"
             ]
         }
     ]
