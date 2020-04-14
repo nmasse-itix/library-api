@@ -8,7 +8,8 @@ library identifier: '3scale-toolbox-jenkins@openapi3',
 def service = null
 
 // dirty hack because of "zombie" services in 3scale
-def baseSystemName = toolbox.generateRandomBaseSystemName()
+//def baseSystemName = toolbox.generateRandomBaseSystemName()
+def baseSystemName = "library"
 
 node("maven") {
   stage('Checkout Source') {
