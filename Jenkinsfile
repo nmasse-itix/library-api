@@ -7,6 +7,9 @@ library identifier: '3scale-toolbox-jenkins@openapi3',
 
 def service = null
 
+// dirty hack because of "zombie" services in 3scale
+def baseSystemName = toolbox.generateRandomBaseSystemName()
+
 node("maven") {
   stage('Checkout Source') {
     checkout scm
@@ -34,7 +37,7 @@ node("maven") {
     // Prepare
     service = toolbox.prepareThreescaleService(
         openapi: [filename: "openapi.json" ],
-        environment: [ baseSystemName: "library",
+        environment: [ baseSystemName: baseSystemName,
                        environmentName: "dev",
                        oidcIssuerEndpoint: params.OIDC_ISSUER_ENDPOINT,
                        publicBasePath: "/",
@@ -85,7 +88,7 @@ node("maven") {
     // Prepare
     service = toolbox.prepareThreescaleService(
         openapi: [filename: "openapi.json" ],
-        environment: [ baseSystemName: "library",
+        environment: [ baseSystemName: baseSystemName,
                        environmentName: "test",
                        oidcIssuerEndpoint: params.OIDC_ISSUER_ENDPOINT,
                        publicBasePath: "/",
@@ -127,7 +130,7 @@ node("maven") {
     // Prepare
     service = toolbox.prepareThreescaleService(
         openapi: [filename: "openapi.json" ],
-        environment: [ baseSystemName: "library",
+        environment: [ baseSystemName: baseSystemName,
                        environmentName: "prod",
                        oidcIssuerEndpoint: params.OIDC_ISSUER_ENDPOINT,
                        publicBasePath: "/",
