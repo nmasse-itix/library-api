@@ -56,10 +56,10 @@ node("maven") {
     )
 
     // A pre-release version needs to use the mock backend 
-    //if (service.openapi.majorVersion == "0") {
-    //  service.environment.privateBaseUrl = params.MOCK_SERVER
-    //  service.environment.privateBasePath = params.MOCK_URL
-    //}
+    if (service.openapi.majorVersion == "0") {
+      service.environment.privateBaseUrl = params.MOCK_SERVER
+      service.environment.privateBasePath = params.MOCK_URL
+    }
 
     // Import OpenAPI
     service.importOpenAPI()
@@ -117,7 +117,7 @@ node("maven") {
     service.applyApplication()
 
     // Run integration tests
-    //runIntegrationTests(service)
+    runIntegrationTests(service)
     
     // Promote to production
     service.promoteToProduction()
@@ -203,10 +203,7 @@ def runIntegrationTests(def service) {
   sh """set -e
   echo "Public Staging Base URL is ${proxy.sandbox_endpoint}"
   ${getCredentialsCodeSnippet}
-  curl -sfk -w "findPets: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/pets" -H "\$credential_header"
-  curl -sfk -w "findPetById: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/pets/1" -H "\$credential_header"
-  # This one is only present in v1.1 and onwards
-  curl -sk -w "updatePet: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/pets/1" -H "Content-Type: application/json" -XPUT -d '{"id":1,"name":"Raspoutine","tag":"dog"}' -H "\$credential_header"
+  curl -sfk -w "authors: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/authors" -H "\$credential_header"
   """
 }
 
