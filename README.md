@@ -2,6 +2,14 @@
 
 ## Setup
 
+Deploy 3scale 2.8.
+
+Deploy Red Hat SSO.
+
+[Configure Red Hat SSO for 3scale](https://www.itix.fr/blog/configure-redhat-sso-3scale-cli/).
+
+[Patch your APIcast to enable CORS globally](https://www.itix.fr/blog/enable-global-policies-apicast/).
+
 Create a project and deploy the Library API Backend.
 
 ```sh
@@ -27,7 +35,7 @@ oc create -n library-api secret generic 3scale-toolbox --from-file="$HOME/.3scal
 Add a new Build Config to run the Jenkins pipeline.
 
 ```sh
-oc new-build -n library-api --strategy=pipeline --name=library-pipeline https://github.com/nmasse-itix/library-api.git -e PRIVATE_BASE_URL=http://library-api.apps.ocp4.itix.fr -e NAMESPACE=library-api -e TARGET_INSTANCE=3scale-saas -e SECRET_NAME=3scale-toolbox -e OIDC_ISSUER_ENDPOINT=https://zync:[REDACTED]@sso.apps.ocp4.itix.fr/auth/realms/3scale-saas -e DISABLE_TLS_VALIDATION=yes -e MOCK_SERVER=https://microcks.apps.ocp4.itix.fr -e MOCK_URL=/rest/Library/0.9.0
+oc new-build -n library-api --strategy=pipeline --name=library-pipeline https://github.com/nmasse-itix/library-api.git -e PRIVATE_BASE_URL=http://library-api.apps.ocp4.itix.fr -e NAMESPACE=library-api -e TARGET_INSTANCE=3scale-saas -e SECRET_NAME=3scale-toolbox -e OIDC_ISSUER_ENDPOINT=https://zync:[REDACTED]@sso.apps.ocp4.itix.fr/auth/realms/3scale-saas -e DISABLE_TLS_VALIDATION=yes -e MOCK_SERVER=https://microcks.apps.ocp4.itix.fr -e MOCK_URL=/rest/Library+API/0.9.0
 ```
 
 ## Reset
