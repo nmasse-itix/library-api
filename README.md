@@ -2,7 +2,7 @@
 
 ## Setup
 
-Deploy 3scale 2.8.
+Deploy 3scale 2.8 and add [the API Catalog to the developer portal](https://github.com/3scale/3scale-discover-APIs/blob/4ebc72c26343e0d0d171ac3f20f510c0c813790d/doc/activedocs.md) (see [pull request #5](https://github.com/3scale/3scale-discover-APIs/pull/5)).
 
 Deploy Red Hat SSO.
 
