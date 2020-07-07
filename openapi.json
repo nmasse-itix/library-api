@@ -331,15 +331,13 @@
                         }
                     }
                 },
-                "type": "oauth2",
-                "description": "oidc"
+                "type": "oauth2"
             }
         }
     },
     "security": [
         {
             "oidc": [
-                "oidc"
             ]
         }
     ]
