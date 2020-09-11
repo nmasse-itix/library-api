@@ -2,10 +2,10 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.0.0",
-        "description": "Get infos about books and authors",
+        "version": "0.9.0",
+        "description": "A simple API for managing authors and books.",
         "contact": {
-            "name": "Nicolas Massé",
+            "name": "Nicolas MASSE",
             "email": "nmasse@redhat.com"
         }
     },
@@ -25,7 +25,7 @@
                                     }
                                 },
                                 "examples": {
-                                    "all-authors": {
+                                    "vhugo": {
                                         "value": [
                                             {
                                                 "id": "vhugo",
@@ -329,7 +329,6 @@
                         "type": "string"
                     },
                     "publish-date": {
-                        "format": "date",
                         "type": "string"
                     },
                     "ddsn": {
@@ -346,19 +345,6 @@
                     "publish-date": "01-01-1862"
                 }
             }
-        },
-        "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "name": "api-key",
-                "in": "header"
-            }
         }
-    },
-    "security": [
-        {
-            "api-key": [
-            ]
-        }
-    ]
+    }
 }
