@@ -2,7 +2,8 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "0.9.0",
+        "version": "1.0.0",
+        "description": "Get infos about books and authors",
         "contact": {
             "name": "Nicolas Massé",
             "email": "nmasse@redhat.com"
@@ -345,6 +346,19 @@
                     "publish-date": "01-01-1862"
                 }
             }
+        },
+        "securitySchemes": {
+            "api-key": {
+                "type": "apiKey",
+                "name": "api-key",
+                "in": "header"
+            }
         }
-    }
+    },
+    "security": [
+        {
+            "api-key": [
+            ]
+        }
+    ]
 }
