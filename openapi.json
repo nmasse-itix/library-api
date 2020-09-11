@@ -2,15 +2,10 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.1.0",
-        "description": "A simple API for managing authors and books.",
+        "version": "0.9.0",
         "contact": {
-            "name": "Eric Wittmann",
-            "email": "eric.wittmann@redhat.com"
-        },
-        "license": {
-            "name": "Mozilla 2.0",
-            "url": "https://www.mozilla.org/en-US/MPL/2.0/"
+            "name": "Nicolas Massé",
+            "email": "nmasse@redhat.com"
         }
     },
     "paths": {
@@ -29,17 +24,12 @@
                                     }
                                 },
                                 "examples": {
-                                    "authors": {
+                                    "all-authors": {
                                         "value": [
                                             {
-                                                "id": "mpagnol",
-                                                "name": "Marcel Pagnol",
-                                                "dob": "1895-02-28"
-                                            },
-                                            {
-                                                "id": "ezola",
-                                                "name": "Émile Zola",
-                                                "dob": "1840-04-02"
+                                                "id": "vhugo",
+                                                "name": "Victor Hugo",
+                                                "dob": "26-02-1885"
                                             }
                                         ]
                                     }
@@ -79,7 +69,21 @@
             "summary": "Path used to manage a single Author.",
             "description": "The REST endpoint/path used to get, update, and delete single instances of an `Author`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
             "get": {
-                "tags": [
+                "parameters": [
+                    {
+                        "examples": {
+                            "vhugo": {
+                                "value": "vhugo"
+                            }
+                        },
+                        "name": "authorId",
+                        "description": "A unique identifier for a `Author`.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -87,13 +91,19 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Author"
+                                },
+                                "examples": {
+                                    "vhugo": {
+                                        "value": {
+                                            "id": "vhugo",
+                                            "name": "Victor Hugo",
+                                            "dob": "26-02-1885"
+                                        }
+                                    }
                                 }
                             }
                         },
                         "description": "Successful response - returns a single `Author`."
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "operationId": "getAuthor",
@@ -115,9 +125,6 @@
                 "responses": {
                     "202": {
                         "description": "Successful response."
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "operationId": "updateAuthor",
@@ -128,9 +135,6 @@
                 "responses": {
                     "204": {
                         "description": "Successful response."
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "operationId": "deleteAuthor",
@@ -161,6 +165,16 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Book"
+                                    }
+                                },
+                                "examples": {
+                                    "all-books": {
+                                        "value": [
+                                            {
+                                                "title": "Les Misérables",
+                                                "publish-date": "01-01-1862"
+                                            }
+                                        ]
                                     }
                                 }
                             }
@@ -198,12 +212,36 @@
             "summary": "Path used to manage a single Book.",
             "description": "The REST endpoint/path used to get, update, and delete single instances of an `Book`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
             "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "les-miserables": {
+                                "value": "les-miserables"
+                            }
+                        },
+                        "name": "bookId",
+                        "description": "A unique identifier for a `Book`.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Book"
+                                },
+                                "examples": {
+                                    "les-miserables": {
+                                        "value": {
+                                            "title": "Les Misérables",
+                                            "publish-date": "01-01-1862"
+                                        }
+                                    }
                                 }
                             }
                         },
@@ -262,7 +300,7 @@
         "schemas": {
             "Author": {
                 "title": "Root Type for Author",
-                "description": "The author of a book.",
+                "description": "",
                 "type": "object",
                 "properties": {
                     "id": {
@@ -272,66 +310,41 @@
                         "type": "string"
                     },
                     "dob": {
-                        "format": "date",
                         "type": "string"
                     }
                 },
                 "example": {
-                    "id": "jk-rowling",
-                    "name": "JK Rowling",
-                    "dob": "1968-01-01"
+                    "id": "vhugo",
+                    "name": "Victor Hugo",
+                    "dob": "26-02-1885"
                 }
             },
             "Book": {
                 "title": "Root Type for Book",
-                "description": "Information about a book.",
+                "description": "",
                 "type": "object",
                 "properties": {
-                    "ddsn": {
-                        "type": "string"
-                    },
                     "title": {
                         "type": "string"
-                    },
-                    "author": {
-                        "$ref": "#/components/schemas/Author"
                     },
                     "publish-date": {
                         "format": "date",
                         "type": "string"
+                    },
+                    "ddsn": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "author": {
+                        "$ref": "#/components/schemas/Author",
+                        "description": ""
                     }
                 },
                 "example": {
-                    "ddsn": "632.4",
-                    "title": "SQL For Dummies",
-                    "publish-date": "2001-05-13"
+                    "title": "Les Misérables",
+                    "publish-date": "01-01-1862"
                 }
             }
-        },
-        "responses": {
-            "NotFound": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "description": "Generic response when not found."
-            }
-        },
-        "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "name": "api-key",
-                "in": "header"
-            }
         }
-    },
-    "security": [
-        {
-            "api-key": [
-            ]
-        }
-    ]
+    }
 }
