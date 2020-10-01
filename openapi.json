@@ -2,12 +2,8 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.0.0",
-        "description": "A simple API for managing authors and books.",
-        "contact": {
-            "name": "Nicolas MASSE",
-            "email": "nmasse@redhat.com"
-        }
+        "version": "0.9.0",
+        "description": "A simple API for managing authors and books"
     },
     "paths": {
         "/authors": {
@@ -25,7 +21,7 @@
                                     }
                                 },
                                 "examples": {
-                                    "vhugo": {
+                                    "all_authors": {
                                         "value": [
                                             {
                                                 "id": "vhugo",
@@ -167,16 +163,6 @@
                                     "items": {
                                         "$ref": "#/components/schemas/Book"
                                     }
-                                },
-                                "examples": {
-                                    "all-books": {
-                                        "value": [
-                                            {
-                                                "title": "Les Misérables",
-                                                "publish-date": "01-01-1862"
-                                            }
-                                        ]
-                                    }
                                 }
                             }
                         },
@@ -213,36 +199,12 @@
             "summary": "Path used to manage a single Book.",
             "description": "The REST endpoint/path used to get, update, and delete single instances of an `Book`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
             "get": {
-                "parameters": [
-                    {
-                        "examples": {
-                            "les-miserables": {
-                                "value": "les-miserables"
-                            }
-                        },
-                        "name": "bookId",
-                        "description": "A unique identifier for a `Book`.",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Book"
-                                },
-                                "examples": {
-                                    "les-miserables": {
-                                        "value": {
-                                            "title": "Les Misérables",
-                                            "publish-date": "01-01-1862"
-                                        }
-                                    }
                                 }
                             }
                         },
@@ -345,19 +307,6 @@
                     "publish-date": "01-01-1862"
                 }
             }
-        },
-        "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "name": "api-key",
-                "in": "header"
-            }
         }
-    },
-    "security": [
-        {
-            "api-key": [
-            ]
-        }
-    ]
+    }
 }
