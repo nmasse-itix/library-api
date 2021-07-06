@@ -319,27 +319,6 @@
                 },
                 "description": "Generic response when not found."
             }
-        },
-        "securitySchemes": {
-            "oidc": {
-                "flows": {
-                    "clientCredentials": {
-                        "tokenUrl": "https://filled.later",
-                        "refreshUrl": "https://filled.later",
-                        "scopes": {
-                            "oidc": "oidc"
-                        }
-                    }
-                },
-                "type": "oauth2"
-            }
         }
-    },
-    "security": [
-        {
-            "oidc": [
-                "oidc"
-            ]
-        }
-    ]
+    }
 }
