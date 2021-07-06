@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.1.0",
+        "version": "0.9.0",
         "description": "A simple API for managing authors and books.",
         "contact": {
             "name": "Eric Wittmann",
@@ -256,39 +256,6 @@
                     "required": true
                 }
             ]
-        },
-        "/books/{bookId}/buy": {
-            "summary": "Buy a book",
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BookOrder"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "OK"
-                    }
-                },
-                "operationId": "BuyBook",
-                "summary": "BuyBook"
-            },
-            "parameters": [
-                {
-                    "name": "bookId",
-                    "description": "id of a book",
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "in": "path",
-                    "required": true
-                }
-            ]
         }
     },
     "components": {
@@ -339,20 +306,6 @@
                     "title": "SQL For Dummies",
                     "publish-date": "2001-05-13"
                 }
-            },
-            "BookOrder": {
-                "title": "Root Type for BookOrder",
-                "description": "",
-                "type": "object",
-                "properties": {
-                    "number": {
-                        "format": "int32",
-                        "type": "integer"
-                    }
-                },
-                "example": {
-                    "number": 1
-                }
             }
         },
         "responses": {
@@ -368,16 +321,24 @@
             }
         },
         "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "name": "api-key",
-                "in": "header"
+            "oidc": {
+                "flows": {
+                    "clientCredentials": {
+                        "tokenUrl": "https://filled.later",
+                        "refreshUrl": "https://filled.later",
+                        "scopes": {
+                            "oidc": "oidc"
+                        }
+                    }
+                },
+                "type": "oauth2"
             }
         }
     },
     "security": [
         {
-            "api-key": [
+            "oidc": [
+                "oidc"
             ]
         }
     ]
