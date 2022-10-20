@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Library API",
-        "version": "1.1.0",
+        "version": "0.9.0",
         "description": "A simple API for managing authors and books.",
         "contact": {
             "name": "Eric Wittmann",
@@ -256,23 +256,6 @@
                     "required": true
                 }
             ]
-        },
-        "/test": {
-            "summary": "This is a test",
-            "get": {
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-
-                            }
-                        },
-                        "description": "ok"
-                    }
-                },
-                "operationId": "test",
-                "summary": "This is a test"
-            }
         }
     },
     "components": {
@@ -336,20 +319,6 @@
                 },
                 "description": "Generic response when not found."
             }
-        },
-        "securitySchemes": {
-            "api-key": {
-                "type": "apiKey",
-                "description": "api-key",
-                "name": "api-key",
-                "in": "header"
-            }
         }
-    },
-    "security": [
-        {
-            "api-key": [
-            ]
-        }
-    ]
+    }
 }
